@@ -1,0 +1,23 @@
+data "azurerm_subnet" "subnet" {
+  name=var.subnet
+  virtual_network_name = var.vnet
+  resource_group_name = var.resource_group_name
+}
+data "azurerm_public_ip" "pip" {
+  name=var.pip
+  resource_group_name =var.resource_group_name
+}
+
+data "azurerm_key_vault" "kv" {
+  name                = var.kv_name
+  resource_group_name = var.resource_group_name
+}
+
+data "azurerm_key_vault_secret" "vm-username" {
+  name         = var.username_secret_name
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+data "azurerm_key_vault_secret" "vm-password" {
+  name         = var.password_secret_name
+  key_vault_id = data.azurerm_key_vault.kv.id
